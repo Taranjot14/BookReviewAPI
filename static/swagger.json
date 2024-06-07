@@ -1,0 +1,269 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "API documentation for the Book Review API.",
+      "version": "1.0.0",
+      "title": "Book Review API"
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "auth",
+        "description": "Authentication related endpoints"
+      },
+      {
+        "name": "books",
+        "description": "Book management endpoints"
+      },
+      {
+        "name": "reviews",
+        "description": "Review management endpoints"
+      }
+    ],
+    "paths": {
+      "/auth/register": {
+        "post": {
+          "tags": ["auth"],
+          "summary": "Register a new user",
+          "description": "",
+          "operationId": "register",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to be registered",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered successfully"
+            },
+            "400": {
+              "description": "Invalid input"
+            },
+            "409": {
+              "description": "User already exists"
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "tags": ["auth"],
+          "summary": "Login a user",
+          "description": "",
+          "operationId": "login",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User credentials",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Login successful"
+            },
+            "401": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      },
+      "/books": {
+        "get": {
+          "tags": ["books"],
+          "summary": "Get all books",
+          "description": "",
+          "operationId": "getBooks",
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            }
+          }
+        },
+        "post": {
+          "tags": ["books"],
+          "summary": "Add a new book",
+          "description": "",
+          "operationId": "addBook",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Book object that needs to be added",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Book added successfully"
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/books/search": {
+        "get": {
+          "tags": ["books"],
+          "summary": "Search books",
+          "description": "",
+          "operationId": "searchBooks",
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "description": "Search query",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/reviews/{book_id}": {
+        "get": {
+          "tags": ["reviews"],
+          "summary": "Get reviews for a book",
+          "description": "",
+          "operationId": "getReviews",
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "book_id",
+              "in": "path",
+              "description": "ID of book to return reviews for",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "404": {
+              "description": "Book not found"
+            }
+          }
+        },
+        "post": {
+          "tags": ["reviews"],
+          "summary": "Add a review for a book",
+          "description": "",
+          "operationId": "addReview",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "book_id",
+              "in": "path",
+              "description": "ID of book to add a review for",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Review object that needs to be added",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Review"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Review added successfully"
+            },
+            "400": {
+              "description": "Invalid input"
+            },
+            "404": {
+              "description": "Book not found"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Book": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+  
